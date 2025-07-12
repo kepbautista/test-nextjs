@@ -1,11 +1,11 @@
-import RootLayout from "@/components/layout";
+import { ReactNode } from 'react'
 
-export default function Home() {
+const Home = (): ReactNode => {
   return (
-    <RootLayout>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </RootLayout>
+    <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
   )
 }
+
+export default Home
