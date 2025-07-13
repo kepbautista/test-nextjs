@@ -2,11 +2,16 @@ import { ReactNode } from "react"
 import { Card, CardContent } from "../card"
 import Image from 'next/image'
 import Link from "next/link"
+import { Star } from "lucide-react"
+import { Button } from "../button"
+import SetFavoriteButton from "../button/SetFavoriteButton"
 
-const RecipeCard: React.FC<RecipeType> = ({id, imageUrl, title, description, author, createdDate}: RecipeType): ReactNode => (
+const RecipeCard: React.FC<RecipeType> = ({id, imageUrl, title, description, author, createdDate, isFavorite}: RecipeType): ReactNode => (
   <Card className="border border-black p-0">
     <CardContent className="flex p-0">
-      <div className="rounded-2xl w-xl h-xl">
+      <div className="relative rounded-2xl w-xl h-xl">
+        {/* TODO: implement favorite/unfavorite onclick */}
+        <SetFavoriteButton isFavorite={isFavorite} handleClick={() => console.log('isFavorite:', isFavorite)} />
         <Image src={imageUrl} alt='' width={600} height={600}/>
       </div>
       <div className="flex flex-col justify-between px-4 py-8 font-semibold w-full">

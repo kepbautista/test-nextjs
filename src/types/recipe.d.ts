@@ -8,4 +8,5 @@ type RecipeType = {
   instruction: string
   imageUrl: string
   createdDate: string
+  isFavorite: boolean
 }
