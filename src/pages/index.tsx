@@ -11,7 +11,7 @@ const Home = (): ReactNode => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch('http://localhost:3000/api/get')
+      const data = await fetch('http://localhost:3000/api/recipe-list')
       const response = await data.json()
       setRecipes([...response.recipes])
     }

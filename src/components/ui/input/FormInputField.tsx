@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../form'
 import { Input } from '../input'
 
+// TODO: modify textfields during errors
 const FormInputField: React.FC<FormInputFieldProps> = ({form, name, label, type}: FormInputFieldProps): ReactNode => (
   <FormField
     control={form.control}

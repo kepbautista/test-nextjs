@@ -2,9 +2,8 @@ import { ReactNode } from "react"
 import { Card, CardContent } from "../card"
 import Image from 'next/image'
 import Link from "next/link"
-import { Star } from "lucide-react"
-import { Button } from "../button"
 import SetFavoriteButton from "../button/SetFavoriteButton"
+import { format } from "date-fns"
 
 const RecipeCard: React.FC<RecipeType> = ({id, imageUrl, title, description, author, createdDate, isFavorite}: RecipeType): ReactNode => (
   <Card className="border border-black p-0">
@@ -20,7 +19,7 @@ const RecipeCard: React.FC<RecipeType> = ({id, imageUrl, title, description, aut
         <Link href={`/recipe/${id}`}>See More</Link>
         <div className="flex justify-between w-full">
           <p>Added by: {author}</p>
-          <p>Date: {createdDate}</p>
+          <p>Date: {format(new Date(createdDate), "MMMM d, yyyy")}</p> 
         </div>
       </div>
     </CardContent>

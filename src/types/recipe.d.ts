@@ -17,6 +17,10 @@ type RecipeInputType = {
   title: string
   description: string
   ingredients: string
-  instruction: string
+  instructions: string
+}
+
+type ReadRecipeJsonFileResponse = {
+  recipes: RecipeType[]
 }
 

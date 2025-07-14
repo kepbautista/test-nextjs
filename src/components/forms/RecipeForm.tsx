@@ -9,8 +9,16 @@ import {
 import { recipeSchema } from "@/validators/recipeSchema"
 import FormInputField from "../ui/input/FormInputField"
 import FormTextAreaField from "../ui/input/FormTextAreaField"
+import { NextRouter, useRouter } from "next/router"
+import { ReactNode } from "react"
 
-const RecipeForm = () => {
+type RecipeFormProps = {
+  defaultValues: RecipeInputType
+}
+
+const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues }: RecipeFormProps): ReactNode => {
+  const router: NextRouter = useRouter()
+
   const form = useForm<z.infer<typeof recipeSchema>>({
     resolver: zodResolver(recipeSchema),
     defaultValues: {
@@ -23,8 +31,21 @@ const RecipeForm = () => {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof recipeSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof recipeSchema>) => {
+    try {
+      await fetch('/api/recipe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...values }),
+      })
+
+      // go back to previous page after successful adding of recipe
+      router.back()
+    } catch (error) {
+      console.error('Add Recipe error:', error)
+    }
   }
 
   const formInputFields: FormInputType[] = [
