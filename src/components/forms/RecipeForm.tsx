@@ -19,7 +19,7 @@ const RecipeForm = () => {
       title: '',
       description: '',
       ingredients: '',
-      instruction: ''
+      instructions: ''
     },
   })
 

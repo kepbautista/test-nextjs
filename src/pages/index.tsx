@@ -1,52 +1,40 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import RecipeCard from '@/components/ui/card/RecipeCard'
 import Sidebar from '@/components/layouts/Sidebar'
 import { NextRouter, useRouter } from 'next/router'
 import AddRecipeButton from '@/components/ui/button/AddRecipeButton'
+import clsx from 'clsx'
 
 const Home = (): ReactNode => {
   const router: NextRouter = useRouter()
+  const [recipes, setRecipes] = useState<RecipeType[]>([])
 
-  // TODO: dummy data, implement state management later
-  const recipes: RecipeType[] = [
-    {
-      id: 1,
-      author: 'Johnny',
-      email: 'johnnytest@cn.com',
-      title: 'Title',
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum is simply dummy text of the printing and typese",
-      ingredients: 'tumeric',
-      instruction: 'boil & let simmer',
-      imageUrl: '/recipes/curry.png',
-      createdDate: 'March 6, 2024',
-      isFavorite: false
-    },
-    {
-      id: 2,
-      author: 'Johnny',
-      email: 'johnnytest@cn.com',
-      title: 'Title',
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy Lorem Ipsum is simply dummy text of the printing and typese",
-      ingredients: 'tumeric',
-      instruction: 'boil & let simmer',
-      imageUrl: '/recipes/curry.png',
-      createdDate: 'March 6, 2024',
-      isFavorite: true
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch('http://localhost:3000/api/get')
+      const response = await data.json()
+      setRecipes([...response.recipes])
     }
-  ]
+    
+    fetchData()
+  }, [])
 
   return (
-    <div className='flex'>
-      <Sidebar />
+    <div className={clsx('flex', {'justify-end h-full rounded-2xl': recipes.length === 0})}>
+      { recipes.length > 0 && <Sidebar />}
       <div className='w-3/4 rounded-2xl bg-white max-h-screen overflow-y-auto'>
-        <div className='flex flex-col gap-3 p-10 relative'>
+        <div className='flex flex-col gap-3 p-10 relative h-full'>
           <AddRecipeButton />
           {
-            recipes.map((item: RecipeType) => (
+            recipes.length > 0 ? recipes.map((item: RecipeType) => (
               <div className='p-2 border-b border-b-black'>
                 <RecipeCard {...item}/>
               </div>
             ))
+            :
+            <div className='flex justify-center items-center w-full h-full'>
+              <h1 className='font-semibold text-5xl'>No Record Found!</h1>
+            </div>
           }
         </div>
       </div>
