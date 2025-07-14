@@ -1,12 +1,15 @@
 import { ReactNode, useEffect, useState } from 'react'
 import RecipeCard from '@/components/ui/card/RecipeCard'
 import Sidebar from '@/components/layouts/Sidebar'
-import { NextRouter, useRouter } from 'next/router'
 import AddRecipeButton from '@/components/ui/button/AddRecipeButton'
 import clsx from 'clsx'
+import useRecipeStore from '@/state/useRecipeStore'
 
 const Home = (): ReactNode => {
-  const router: NextRouter = useRouter()
+  const saveRecipes: SetRecipesType = useRecipeStore(
+    state => state.setRecipes,
+  )
+
   const [recipes, setRecipes] = useState<RecipeType[]>([])
 
   useEffect(() => {
@@ -14,6 +17,7 @@ const Home = (): ReactNode => {
       const data = await fetch('http://localhost:3000/api/recipe-list')
       const response = await data.json()
       setRecipes([...response.recipes])
+      saveRecipes([...response.recipes])
     }
     
     fetchData()
