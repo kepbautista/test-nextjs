@@ -1,5 +1,5 @@
 type RecipeType = {
-  id: number
+  id?: string
   author: string
   email: string
   title: string
@@ -12,6 +12,7 @@ type RecipeType = {
 }
 
 type RecipeInputType = {
+  id?: string
   author: string
   email: string
   title: string

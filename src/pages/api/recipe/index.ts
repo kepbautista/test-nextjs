@@ -1,22 +1,44 @@
 import { readJsonFile, writeJsonFile } from "@/lib/fileUtil"
 import { NextApiRequest, NextApiResponse } from "next"
+import { v4 as uuidv4 } from 'uuid'
+
+const emptyValues: RecipeType = {
+  id: '',
+  author: '',
+  email: '',
+  title: '',
+  description: '',
+  ingredients: '',
+  instructions: '',
+  imageUrl: '/placeholder.svg',
+  createdDate: (new Date()).toLocaleString(),
+  isFavorite: false
+}
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const data: ReadRecipeJsonFileResponse = await readJsonFile()
-
-  // get last id
-  const lastId: number = data.recipes.length > 0 ? data.recipes[data.recipes.length - 1].id : 0
-
+  
   if (req.method === 'POST') {
+    const id: string = uuidv4()
     await writeJsonFile({ recipes: [...data.recipes, {
-        id: lastId + 1,
+        id,
         ...req.body,
-        imageUrl: '/recipes/curry.png',
+        imageUrl: '/recipes/curry.png', // TODO: replace with uploaded file later
         createdDate: (new Date()).toLocaleString(),
         isFavorite: false
       }] })
 
-    res.status(200).json({message: 'data added'})
+    res.status(200).json({message: 'recipe added'})
+  }
+  else if (req.method === 'PATCH') {
+    const { id } = req.body
+    const arrayCopy: RecipeType[] = [...data.recipes]
+    const recipeCopy: RecipeType = data.recipes.find((item: RecipeType) => item.id === id) || emptyValues
+    const index: number = data.recipes.findIndex((item: RecipeType) => item.id === id)
+    arrayCopy.splice(index, 1, {...recipeCopy, id, ...req.body})
+    
+    await writeJsonFile({ recipes: [...arrayCopy] })
+    res.status(200).json({message: 'recipe updated'})
   }
 }
 

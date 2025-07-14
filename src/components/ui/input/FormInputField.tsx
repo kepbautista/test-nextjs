@@ -13,7 +13,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({form, name, label, type,
         <FormControl>
           <Input
             type={type}
-            className='bg-white border border-gray-400 w-full' {...field} value={defaultValue} disabled={disabled} />
+            className='bg-white border border-gray-400 w-full' {...field} defaultValue={defaultValue} disabled={disabled} />
         </FormControl>
         <FormMessage />
       </FormItem>

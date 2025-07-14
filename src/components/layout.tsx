@@ -1,4 +1,4 @@
-import Sidebar from "./layouts/Sidebar"
+import { Toaster } from "sonner"
 import SiteHeader from "./layouts/SiteHeader"
 
 const RootLayout = ({
@@ -11,6 +11,7 @@ const RootLayout = ({
       <SiteHeader />
       {/* TODO: should not be scrollable later */}
       <div className="relative overflow-y-auto p-6">{children}</div>
+      <Toaster />
     </div>
   )
 }

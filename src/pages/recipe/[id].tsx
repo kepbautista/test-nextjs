@@ -20,7 +20,7 @@ const RecipePage: React.FC = (): ReactNode => {
       return
     }
 
-    const findRecipe: RecipeType | undefined = recipes.find((item: RecipeType) => item.id === Number(id))
+    const findRecipe: RecipeType | undefined = recipes.find((item: RecipeType) => item.id === id)
 
     if (!findRecipe) {
       return
@@ -29,7 +29,7 @@ const RecipePage: React.FC = (): ReactNode => {
     setRecipe({...findRecipe})
   }, [id])
 
-  if (!recipe) {
+  if (!recipe || !id) {
     return
   }
 
@@ -40,7 +40,7 @@ const RecipePage: React.FC = (): ReactNode => {
         <BackButton />
         <Image src={recipe.imageUrl} width={400} height={200} alt='' />
       </div>
-      <RecipeForm defaultValues={recipe} />
+      <RecipeForm id={id as string} defaultValues={recipe} />
     </div>
   )
 }

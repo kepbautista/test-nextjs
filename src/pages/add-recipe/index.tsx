@@ -5,6 +5,7 @@ import PlaceholderIcon from '@/public/placeholder.svg'
 import Image from 'next/image'
 
 const defaultValue: RecipeInputType = {
+  id: '',
   author: '',
   email: '',
   title: '',

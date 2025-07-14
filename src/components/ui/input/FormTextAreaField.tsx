@@ -11,7 +11,7 @@ const FormTextAreaField: React.FC<FormInputFieldProps> = ({form, name, label, de
       <FormItem>
         <FormLabel className="text-xl uppercase font-normal pb-5">{label}</FormLabel>
         <FormControl>
-          <Textarea className={clsx('bg-white border border-gray-400 w-full', className)} {...field} value={defaultValue} />
+          <Textarea className={clsx('bg-white border border-gray-400 w-full', className)} {...field} defaultValue={defaultValue} />
         </FormControl>
         <FormMessage />
       </FormItem>

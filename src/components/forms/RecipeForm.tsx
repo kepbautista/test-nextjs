@@ -11,39 +11,46 @@ import FormInputField from "../ui/input/FormInputField"
 import FormTextAreaField from "../ui/input/FormTextAreaField"
 import { NextRouter, useRouter } from "next/router"
 import { ReactNode } from "react"
+import { PAGE_URL } from "@/lib/fixtures"
+import { toast } from "sonner"
 
 type RecipeFormProps = {
+  id?: string
   isAddMode?: boolean
   defaultValues: RecipeInputType
 }
 
-const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues, isAddMode = false }: RecipeFormProps): ReactNode => {
+const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues, isAddMode = false, id }: RecipeFormProps): ReactNode => {
   const router: NextRouter = useRouter()
 
   const form = useForm<z.infer<typeof recipeSchema>>({
     resolver: zodResolver(recipeSchema),
-    defaultValues: {
-      author: '',
-      email: '',
-      title: '',
-      description: '',
-      ingredients: '',
-      instructions: ''
-    },
+    defaultValues,
   })
 
   const onSubmit = async (values: z.infer<typeof recipeSchema>) => {
+    const headers = { 'Content-Type': 'application/json' }
+    const body: string = JSON.stringify({ ...values, id })
+
     try {
       await fetch('/api/recipe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...values }),
+        method: isAddMode ? 'POST' : 'PATCH',
+        headers,
+        body
       })
 
       // go back to previous page after successful adding of recipe
-      router.back()
+      if (isAddMode) {
+        router.back()
+      }
+      else {
+        toast("Update successful", {
+          description: "Recipe has been successfully updated"
+        })
+        setTimeout(() => {
+          router.push(PAGE_URL.HOME)
+        }, 2000)
+      }
     } catch (error) {
       console.error('Add Recipe error:', error)
     }
