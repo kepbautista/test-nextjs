@@ -38,18 +38,18 @@ const Home = (): ReactNode => {
   return (
     <div className='flex'>
       <Sidebar />
-      <div className='flex flex-col gap-3 p-10 w-3/4 rounded-2xl bg-white max-h-screen overflow-auto'>
-      <div className='relative'>
-        <AddRecipeButton />
-        {
-          [...recipes, ...recipes].map((item: RecipeType) => (
-            <div className='p-2 border-b border-b-black'>
-              <RecipeCard {...item}/>
-            </div>
-          ))
-        }
+      <div className='w-3/4 rounded-2xl bg-white max-h-screen overflow-y-auto'>
+        <div className='flex flex-col gap-3 p-10 relative'>
+          <AddRecipeButton />
+          {
+            recipes.map((item: RecipeType) => (
+              <div className='p-2 border-b border-b-black'>
+                <RecipeCard {...item}/>
+              </div>
+            ))
+          }
+        </div>
       </div>
-    </div>
     </div>
   )
 }

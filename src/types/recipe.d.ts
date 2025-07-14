@@ -10,3 +10,13 @@ type RecipeType = {
   createdDate: string
   isFavorite: boolean
 }
+
+type RecipeInputType = {
+  author: string
+  email: string
+  title: string
+  description: string
+  ingredients: string
+  instruction: string
+}
+
