@@ -1,6 +1,9 @@
+import RecipeForm from '@/components/forms/RecipeForm'
+import BackButton from '@/components/ui/button/BackButton'
 import useRecipeStore from '@/state/useRecipeStore'
 import { NextRouter, useRouter } from 'next/router'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import Image from 'next/image'
 
 const RecipePage: React.FC = (): ReactNode => {
   const router: NextRouter = useRouter()
@@ -9,22 +12,35 @@ const RecipePage: React.FC = (): ReactNode => {
   const recipes: RecipeType[] = useRecipeStore(
     state => state.recipes,
   )
+  const [recipe, setRecipe] = useState<RecipeType>()
 
-  console.log({
-    id: 'state-log',
-    recipes
-  })
+  // find recipe based on id
+  useEffect(() => {
+    if (!id) {
+      return
+    }
+
+    const findRecipe: RecipeType | undefined = recipes.find((item: RecipeType) => item.id === Number(id))
+
+    if (!findRecipe) {
+      return
+    }
+
+    setRecipe({...findRecipe})
+  }, [id])
+
+  if (!recipe) {
+    return
+  }
+
 
   return (
-    <div>
-      <h3>Recipe Id: {id}</h3>
-      <ul>
-        {
-          recipes.map((item: RecipeType) => 
-            <li>{`id: ${item.id} - ${item.title}`}</li>
-          )
-        }
-      </ul>
+    <div className='flex gap-10'>
+      <div className='form-side-bar'>
+        <BackButton />
+        <Image src={recipe.imageUrl} width={400} height={200} alt='' />
+      </div>
+      <RecipeForm defaultValues={recipe} />
     </div>
   )
 }

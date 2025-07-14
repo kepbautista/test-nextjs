@@ -3,7 +3,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../for
 import { Input } from '../input'
 
 // TODO: modify textfields during errors
-const FormInputField: React.FC<FormInputFieldProps> = ({form, name, label, type}: FormInputFieldProps): ReactNode => (
+const FormInputField: React.FC<FormInputFieldProps> = ({form, name, label, type, defaultValue, disabled = false}: FormInputFieldProps): ReactNode => (
   <FormField
     control={form.control}
     name={name}
@@ -11,7 +11,9 @@ const FormInputField: React.FC<FormInputFieldProps> = ({form, name, label, type}
       <FormItem>
         <FormLabel className="text-xl uppercase font-normal">{label}</FormLabel>
         <FormControl>
-          <Input type={type} className='bg-white border border-gray-400 w-full' {...field} />
+          <Input
+            type={type}
+            className='bg-white border border-gray-400 w-full' {...field} value={defaultValue} disabled={disabled} />
         </FormControl>
         <FormMessage />
       </FormItem>

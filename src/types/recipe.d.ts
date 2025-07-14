@@ -5,7 +5,7 @@ type RecipeType = {
   title: string
   description: string
   ingredients: string
-  instruction: string
+  instructions: string
   imageUrl: string
   createdDate: string
   isFavorite: boolean

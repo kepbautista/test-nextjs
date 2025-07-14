@@ -9,7 +9,7 @@ const FavoritesCheckbox: React.FC = (): ReactNode => {
   ]
 
   return (
-    <div className="text-[#616161] bg-white rounded-2xl border border-black p-4">
+    <div className="text-[#616161] bg-white rounded-sm border border-black p-4">
       <h5 className="font-semibold">Favorites?</h5>
       <form className='flex flex-col gap-3 p-4'>
         {

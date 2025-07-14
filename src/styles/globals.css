@@ -193,3 +193,11 @@ a {
     @apply bg-background text-foreground;
   }
 }
+
+.form-side-bar {
+  @apply flex flex-col gap-10 pl-10 items-start;
+}
+
+.recipe-button {
+  @apply rounded-sm w-36;
+}

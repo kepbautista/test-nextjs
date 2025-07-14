@@ -13,10 +13,11 @@ import { NextRouter, useRouter } from "next/router"
 import { ReactNode } from "react"
 
 type RecipeFormProps = {
+  isAddMode?: boolean
   defaultValues: RecipeInputType
 }
 
-const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues }: RecipeFormProps): ReactNode => {
+const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues, isAddMode = false }: RecipeFormProps): ReactNode => {
   const router: NextRouter = useRouter()
 
   const form = useForm<z.infer<typeof recipeSchema>>({
@@ -49,15 +50,15 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues }: RecipeFormProp
   }
 
   const formInputFields: FormInputType[] = [
-    { name: 'author', label: 'Your Name' },
-    { name: 'email', label: 'Email Address', type: 'email' },
-    { name: 'title', label: 'Title' }
+    { name: 'author', label: 'Your Name', defaultValue: defaultValues.author },
+    { name: 'email', label: 'Email Address', type: 'email', defaultValue: defaultValues.email },
+    { name: 'title', label: 'Title', defaultValue: defaultValues.title, disabled: !isAddMode }
   ]
 
   const formTextAreaFields: FormInputType[] = [
-    { name: 'description', label: 'Description'},
-    { name: 'ingredients', label: 'Ingredients', className: 'h-32' },
-    { name: 'instructions', label: 'Instructions', className: 'h-32' },
+    { name: 'description', label: 'Description', defaultValue: defaultValues.description},
+    { name: 'ingredients', label: 'Ingredients', defaultValue: defaultValues.ingredients,  className: 'h-32' },
+    { name: 'instructions', label: 'Instructions', defaultValue: defaultValues.instructions,  className: 'h-32' },
   ]
 
   return (
@@ -74,10 +75,18 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ defaultValues }: RecipeFormProp
               <FormTextAreaField form={form} {...item} />
             )
           }
-          <div className="flex justify-end w-full">
-            <Button className="bg-[#435490] rounded-2xl w-36" size='lg' type="submit">
-              Save
-            </Button>
+          <div className="flex justify-end gap-3 w-full">
+              {
+                !isAddMode && 
+                  <Button variant='destructive' className="recipe-button">
+                    Delete
+                  </Button>
+              }
+              <Button 
+                className="recipe-button bg-[#435490]"
+                type="submit">
+                Save
+              </Button>
           </div>
         </form>
       </Form>
