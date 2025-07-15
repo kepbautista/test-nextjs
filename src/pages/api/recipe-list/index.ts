@@ -2,10 +2,7 @@
 import { readJsonFile } from '@/lib/fileUtil'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await readJsonFile()
   res.status(200).json(data)
 }

@@ -9,10 +9,10 @@ const AddRecipeButton: React.FC = (): ReactNode => {
 
   return (
     <Button
-      variant='plain'
+      variant="plain"
       onClick={() => router.push('/add-recipe')}
-      className='absolute top-9 right-6 z-10'>
-      <Image src={AddButton} alt='' />
+      className="absolute top-9 right-6 z-10">
+      <Image src={AddButton} alt="" />
     </Button>
   )
 }

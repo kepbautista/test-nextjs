@@ -11,15 +11,15 @@ const defaultValue: RecipeInputType = {
   title: '',
   description: '',
   ingredients: '',
-  instructions: ''
+  instructions: '',
 }
 
 const AddRecipePage: React.FC = (): ReactNode => (
-  <div className='flex gap-10'>
-    <div className='form-side-bar'>
+  <div className="flex gap-10">
+    <div className="form-side-bar">
       <BackButton />
       {/* TODO: add file uploder here... */}
-      <Image src={PlaceholderIcon} alt='' />
+      <Image src={PlaceholderIcon} alt="" />
     </div>
     <RecipeForm isAddMode={true} defaultValues={defaultValue} />
   </div>
