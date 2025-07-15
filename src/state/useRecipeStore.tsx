@@ -8,7 +8,9 @@ const useRecipeStore = create<RecipeStoreStateType>(set => ({
   displayFavorites: true,
   setDisplayFavorites: (state: boolean) => set({ displayFavorites: state }),
   displayNotFavorites: true,
-  setDisplayNotFavories: (state: boolean) => set(({ displayNotFavorites: state } ))
+  setDisplayNotFavories: (state: boolean) => set(({ displayNotFavorites: state } )),
+  searchString: '',
+  setSearchString: (state: string) => set({ searchString: state })
 }))
 
 export default useRecipeStore

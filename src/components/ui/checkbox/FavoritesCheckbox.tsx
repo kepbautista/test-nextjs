@@ -4,8 +4,12 @@ import { Label } from '../label'
 import useRecipeStore from '@/state/useRecipeStore'
 
 const FavoritesCheckbox: React.FC = (): ReactNode => {
-  const setDisplayFavorites: SetBooleanType = useRecipeStore(state => state.setDisplayFavorites)
-  const setDisplayNotFavories: SetBooleanType = useRecipeStore(state => state.setDisplayNotFavories)
+  const setDisplayFavorites: SetBooleanType = useRecipeStore(
+    state => state.setDisplayFavorites,
+  )
+  const setDisplayNotFavories: SetBooleanType = useRecipeStore(
+    state => state.setDisplayNotFavories,
+  )
 
   const items: CheckBoxItemType[] = [
     {

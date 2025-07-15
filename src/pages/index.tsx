@@ -10,8 +10,13 @@ const Home = (): ReactNode => {
   const savedRecipes: RecipeType[] = useRecipeStore(state => state.recipes)
   const saveRecipes: SetRecipesType = useRecipeStore(state => state.setRecipes)
   const sortMode: SortModeType = useRecipeStore(state => state.sortMode)
-  const displayFavorites: boolean = useRecipeStore(state => state.displayFavorites)
-  const displayNotFavorites: boolean = useRecipeStore(state => state.displayNotFavorites)
+  const displayFavorites: boolean = useRecipeStore(
+    state => state.displayFavorites,
+  )
+  const displayNotFavorites: boolean = useRecipeStore(
+    state => state.displayNotFavorites,
+  )
+  const searchString: string = useRecipeStore(state => state.searchString)
 
   const [recipes, setRecipes] = useState<RecipeType[]>([])
 
@@ -27,29 +32,36 @@ const Home = (): ReactNode => {
   }, [])
 
   useEffect(() => {
+    // sort recipes by title
     const sorted: RecipeType[] =
-      sortMode === 'asc' ? sortAscending(savedRecipes) : sortDescending(savedRecipes)
+      sortMode === 'asc'
+        ? sortAscending(savedRecipes)
+        : sortDescending(savedRecipes)
     saveRecipes([...sorted])
 
-    console.log({
-      id: 'patch-log',
-      displayFavorites,
-      displayNotFavorites
-    })
+    let filtered: RecipeType[] = [...sorted]
 
+    // filter by favorites
     if (displayFavorites && displayNotFavorites) {
-      setRecipes([...sorted])
+      filtered = [...filtered]
+    } else if (!displayFavorites && !displayNotFavorites) {
+      filtered = []
+    } else if (displayFavorites) {
+      filtered = filtered.filter((item: RecipeType) => item.isFavorite)
+    } else if (displayNotFavorites) {
+      filtered = filtered.filter((item: RecipeType) => !item.isFavorite)
     }
-    else if (!displayFavorites && !displayNotFavorites) {
-      setRecipes([])
+
+    // filter by search string
+    if (searchString.length > 0) {
+      const transformString: string = searchString.toLocaleLowerCase()
+      filtered = filtered.filter((item: RecipeType) =>
+        item.title.toLocaleLowerCase().includes(transformString),
+      )
     }
-    else if (displayFavorites) {
-      setRecipes(sorted.filter((item: RecipeType) => item.isFavorite))
-    }
-    else if (displayNotFavorites) {
-      setRecipes(sorted.filter((item: RecipeType) => !item.isFavorite))
-    }
-  }, [sortMode, displayFavorites, displayNotFavorites])
+
+    setRecipes([...filtered])
+  }, [sortMode, displayFavorites, displayNotFavorites, searchString])
 
   return (
     <div
