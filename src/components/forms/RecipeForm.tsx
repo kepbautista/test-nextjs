@@ -18,6 +18,8 @@ type RecipeFormProps = {
   defaultValues: RecipeInputType
 }
 
+const headers = { 'Content-Type': 'application/json' }
+
 const RecipeForm: React.FC<RecipeFormProps> = ({
   defaultValues,
   isAddMode = false,
@@ -30,12 +32,20 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
     defaultValues,
   })
 
-  const handleDelete = () => {
-    // TODO: handle delete recipe
+  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    try {
+      await fetch(`/api/recipe/remove/${id}`, { method: 'DELETE', headers })
+      setTimeout(() => {
+        router.push(PAGE_URL.HOME)
+      }, 2000)
+    } catch (error) {
+      console.error(`Delete Recipe error:`, error)
+    }
   }
 
   const onSubmit = async (values: z.infer<typeof recipeSchema>) => {
-    const headers = { 'Content-Type': 'application/json' }
     const body: string = JSON.stringify({ ...values, id })
 
     try {
@@ -57,7 +67,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
         }, 2000)
       }
     } catch (error) {
-      console.error('Add Recipe error:', error)
+      console.error(`${isAddMode ? 'Add' : 'Update'} Recipe error:`, error)
     }
   }
 
