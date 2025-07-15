@@ -14,7 +14,6 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
   name,
   label,
   type,
-  defaultValue,
   disabled = false,
 }: FormInputFieldProps): ReactNode => (
   <FormField
@@ -28,7 +27,6 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
             type={type}
             className="bg-white border border-gray-400 w-full"
             {...field}
-            defaultValue={defaultValue}
             disabled={disabled}
           />
         </FormControl>

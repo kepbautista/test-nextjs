@@ -47,7 +47,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
     const body: string = JSON.stringify({ ...values, id })
 
     try {
-      await fetch('/api/recipe', {
+      const response = await fetch('/api/recipe', {
         method: isAddMode ? 'POST' : 'PATCH',
         headers,
         body,
@@ -55,7 +55,13 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
 
       // go back to previous page after successful adding of recipe
       if (isAddMode) {
-        router.back()
+        if (response.status === 400) {
+          toast('Add recipe failed', {
+            description: 'Recipe title already exists.',
+          })
+        } else {
+          router.back()
+        }
       } else {
         toast('Update successful', {
           description: 'Recipe has been successfully updated',
@@ -112,10 +118,10 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 h-screen overflow-y-scroll">
           {formInputFields.map((item: FormInputType) => (
-            <FormInputField form={form} {...item} />
+            <FormInputField key={item.name} form={form} {...item} />
           ))}
           {formTextAreaFields.map((item: FormInputType) => (
-            <FormTextAreaField form={form} {...item} />
+            <FormTextAreaField key={item.name} form={form} {...item} />
           ))}
           <div className="flex justify-end gap-3 w-full">
             {!isAddMode && (

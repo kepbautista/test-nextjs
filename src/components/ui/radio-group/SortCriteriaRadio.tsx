@@ -36,7 +36,7 @@ const SortCriteriaRadio: React.FC = (): ReactNode => {
       className="p-4 pt-2"
       onValueChange={handleChange}>
       {options.map((item: OptionType) => (
-        <div className="flex items-center space-x-2">
+        <div key={item.value} className="flex items-center space-x-2">
           <RadioGroupItem
             className="bg-white"
             value={item.value}

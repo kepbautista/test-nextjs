@@ -20,16 +20,16 @@ const RecipeCard: React.FC<RecipeType> = ({
   const saveRecipes: SetRecipesType = useRecipeStore(state => state.setRecipes)
 
   const handleSetFavorite = async () => {
-    const ref: RecipeType | undefined = recipes.find(
+    const reference: RecipeType | undefined = recipes.find(
       (item: RecipeType) => item.id === id,
     )
 
-    if (ref) {
+    if (reference) {
       const arrayCopy: RecipeType[] = [...recipes]
       const index: number = recipes.findIndex(
         (item: RecipeType) => item.id === id,
       )
-      arrayCopy.splice(index, 1, { ...ref, isFavorite: !isFavorite })
+      arrayCopy.splice(index, 1, { ...reference, isFavorite: !isFavorite })
 
       saveRecipes([...arrayCopy])
 

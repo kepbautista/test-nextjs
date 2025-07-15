@@ -13,7 +13,6 @@ const FormTextAreaField: React.FC<FormInputFieldProps> = ({
   form,
   name,
   label,
-  defaultValue,
   className,
 }): ReactNode => (
   <FormField
@@ -31,7 +30,6 @@ const FormTextAreaField: React.FC<FormInputFieldProps> = ({
               className,
             )}
             {...field}
-            defaultValue={defaultValue}
           />
         </FormControl>
         <FormMessage />

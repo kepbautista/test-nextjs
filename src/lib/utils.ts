@@ -64,3 +64,10 @@ export const sortDescending = (
     ),
   ]
 }
+
+export const removeExcessWhiteSpaces = (value: string): string => {
+  const tokens: string[] = value
+    .split(' ')
+    .filter((item: string) => item !== '')
+  return tokens.map((item: string) => item.trim()).join(' ')
+}
