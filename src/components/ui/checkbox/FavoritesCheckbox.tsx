@@ -13,7 +13,7 @@ const FavoritesCheckbox: React.FC = (): ReactNode => {
       <h5 className="font-semibold">Favorites?</h5>
       <form className="flex flex-col gap-3 p-4">
         {items.map((item: OptionType) => (
-          <div className="flex gap-2">
+          <div key={item.value} className="flex gap-2">
             <Checkbox
               onCheckedChange={() => console.log(`clicked ${item.label}`)}
               value={item.value}

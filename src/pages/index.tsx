@@ -1,12 +1,14 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, use, useEffect, useState } from 'react'
 import RecipeCard from '@/components/ui/card/RecipeCard'
 import Sidebar from '@/components/layouts/Sidebar'
 import AddRecipeButton from '@/components/ui/button/AddRecipeButton'
 import clsx from 'clsx'
 import useRecipeStore from '@/state/useRecipeStore'
+import { sortAscending, sortDescending } from '@/lib/utils'
 
 const Home = (): ReactNode => {
   const saveRecipes: SetRecipesType = useRecipeStore(state => state.setRecipes)
+  const sortMode: SortModeType = useRecipeStore(state => state.sortMode)
 
   const [recipes, setRecipes] = useState<RecipeType[]>([])
 
@@ -14,12 +16,22 @@ const Home = (): ReactNode => {
     const fetchData = async () => {
       const data = await fetch('http://localhost:3000/api/recipe-list')
       const response = await data.json()
-      setRecipes([...response.recipes])
-      saveRecipes([...response.recipes])
+      const arrayCopy: RecipeType[] = [...response.recipes]
+
+      setRecipes([...arrayCopy])
+      saveRecipes([...arrayCopy])
     }
 
     fetchData()
   }, [])
+
+  useEffect(() => {
+    setRecipes(
+      sortMode === 'asc'
+        ? [...sortAscending(recipes)]
+        : [...sortDescending(recipes)]
+    )
+  }, [sortMode])
 
   return (
     <div
@@ -32,7 +44,7 @@ const Home = (): ReactNode => {
           <AddRecipeButton />
           {recipes.length > 0 ? (
             recipes.map((item: RecipeType) => (
-              <div className="p-2 border-b border-b-black">
+              <div key={item.id} className="p-2 border-b border-b-black">
                 <RecipeCard {...item} />
               </div>
             ))

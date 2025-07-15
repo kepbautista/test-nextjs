@@ -1,4 +1,5 @@
 import { readJsonFile, writeJsonFile } from '@/lib/fileUtil'
+import { sortAscending } from '@/lib/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -21,8 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'POST') {
       const id: string = uuidv4()
-      await writeJsonFile({
-        recipes: [
+      const arrayCopy: RecipeType[] = [
           ...data.recipes,
           {
             id,
@@ -31,7 +31,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             createdDate: new Date().toLocaleString(),
             isFavorite: false,
           },
-        ],
+        ]
+
+      const sortedArray: RecipeType[] = sortAscending(arrayCopy)
+      await writeJsonFile({
+        recipes: [...sortedArray],
       })
 
       res.status(200).json({ message: 'recipe added' })
