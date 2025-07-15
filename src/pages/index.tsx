@@ -9,6 +9,9 @@ import { sortAscending, sortDescending } from '@/lib/utils'
 const Home = (): ReactNode => {
   const savedRecipes: RecipeType[] = useRecipeStore(state => state.recipes)
   const saveRecipes: SetRecipesType = useRecipeStore(state => state.setRecipes)
+  const sortCriteria: SortCriteriaType = useRecipeStore(
+    state => state.sortCriteria,
+  )
   const sortMode: SortModeType = useRecipeStore(state => state.sortMode)
   const displayFavorites: boolean = useRecipeStore(
     state => state.displayFavorites,
@@ -34,8 +37,8 @@ const Home = (): ReactNode => {
     // sort recipes by title
     const sorted: RecipeType[] =
       sortMode === 'asc'
-        ? sortAscending(savedRecipes)
-        : sortDescending(savedRecipes)
+        ? sortAscending(savedRecipes, sortCriteria)
+        : sortDescending(savedRecipes, sortCriteria)
 
     let filtered: RecipeType[] = [...sorted]
 
@@ -59,7 +62,14 @@ const Home = (): ReactNode => {
     }
 
     setRecipes([...filtered])
-  }, [savedRecipes, sortMode, displayFavorites, displayNotFavorites, searchString])
+  }, [
+    savedRecipes,
+    sortMode,
+    sortCriteria,
+    displayFavorites,
+    displayNotFavorites,
+    searchString,
+  ])
 
   return (
     <div

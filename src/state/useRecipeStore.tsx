@@ -5,6 +5,8 @@ const useRecipeStore = create<RecipeStoreStateType>(set => ({
   setRecipes: (state: RecipeType[]) => set({ recipes: [...state] }),
   sortMode: 'asc',
   setSortMode: (state: SortModeType) => set({ sortMode: state }),
+  sortCriteria: 'title',
+  setSortCriteria: (state: SortCriteriaType) => set({ sortCriteria: state }),
   displayFavorites: true,
   setDisplayFavorites: (state: boolean) => set({ displayFavorites: state }),
   displayNotFavorites: true,
