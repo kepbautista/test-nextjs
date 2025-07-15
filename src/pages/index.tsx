@@ -1,4 +1,4 @@
-import { ReactNode, use, useEffect, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import RecipeCard from '@/components/ui/card/RecipeCard'
 import Sidebar from '@/components/layouts/Sidebar'
 import AddRecipeButton from '@/components/ui/button/AddRecipeButton'
@@ -7,30 +7,24 @@ import useRecipeStore from '@/state/useRecipeStore'
 import { sortAscending, sortDescending } from '@/lib/utils'
 
 const Home = (): ReactNode => {
+  const recipes: RecipeType[] = useRecipeStore(state => state.recipes)
   const saveRecipes: SetRecipesType = useRecipeStore(state => state.setRecipes)
   const sortMode: SortModeType = useRecipeStore(state => state.sortMode)
-
-  const [recipes, setRecipes] = useState<RecipeType[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch('http://localhost:3000/api/recipe-list')
       const response = await data.json()
-      const arrayCopy: RecipeType[] = [...response.recipes]
-
-      setRecipes([...arrayCopy])
-      saveRecipes([...arrayCopy])
+      saveRecipes([...response.recipes])
     }
 
     fetchData()
   }, [])
 
   useEffect(() => {
-    setRecipes(
-      sortMode === 'asc'
-        ? [...sortAscending(recipes)]
-        : [...sortDescending(recipes)]
-    )
+    const sorted: RecipeType[] =
+      sortMode === 'asc' ? sortAscending(recipes) : sortDescending(recipes)
+    saveRecipes([...sorted])
   }, [sortMode])
 
   return (

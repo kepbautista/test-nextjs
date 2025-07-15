@@ -9,7 +9,7 @@ import FormInputField from '../ui/input/FormInputField'
 import FormTextAreaField from '../ui/input/FormTextAreaField'
 import { NextRouter, useRouter } from 'next/router'
 import { ReactNode } from 'react'
-import { PAGE_URL } from '@/lib/fixtures'
+import { headers, PAGE_URL } from '@/lib/fixtures'
 import { toast } from 'sonner'
 
 type RecipeFormProps = {
@@ -17,8 +17,6 @@ type RecipeFormProps = {
   isAddMode?: boolean
   defaultValues: RecipeInputType
 }
-
-const headers = { 'Content-Type': 'application/json' }
 
 const RecipeForm: React.FC<RecipeFormProps> = ({
   defaultValues,

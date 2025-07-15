@@ -8,7 +8,7 @@ const Sidebar: React.FC = () => (
       <SelectSort />
     </div>
 
-    <div>
+    <div className='pr-12'>
       <h3 className="text-xl">Filter</h3>
       <FavoritesCheckbox />
     </div>
