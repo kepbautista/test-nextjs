@@ -25,7 +25,6 @@ const Home = (): ReactNode => {
       const data = await fetch('http://localhost:3000/api/recipe-list')
       const response = await data.json()
       saveRecipes([...response.recipes])
-      setRecipes([...response.recipes])
     }
 
     fetchData()
@@ -37,7 +36,6 @@ const Home = (): ReactNode => {
       sortMode === 'asc'
         ? sortAscending(savedRecipes)
         : sortDescending(savedRecipes)
-    saveRecipes([...sorted])
 
     let filtered: RecipeType[] = [...sorted]
 
@@ -61,7 +59,7 @@ const Home = (): ReactNode => {
     }
 
     setRecipes([...filtered])
-  }, [sortMode, displayFavorites, displayNotFavorites, searchString])
+  }, [savedRecipes, sortMode, displayFavorites, displayNotFavorites, searchString])
 
   return (
     <div
