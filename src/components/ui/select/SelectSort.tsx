@@ -17,7 +17,7 @@ const SelectSort: React.FC = (): ReactNode => {
   
   return (
   <Select onValueChange={handleChange}>
-    <SelectTrigger className="w-80">
+    <SelectTrigger className="w-80 bg-white">
       <SelectValue placeholder="Select" />
     </SelectTrigger>
     <SelectContent>

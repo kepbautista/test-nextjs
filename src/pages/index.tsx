@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import RecipeCard from '@/components/ui/card/RecipeCard'
 import Sidebar from '@/components/layouts/Sidebar'
 import AddRecipeButton from '@/components/ui/button/AddRecipeButton'
@@ -7,15 +7,20 @@ import useRecipeStore from '@/state/useRecipeStore'
 import { sortAscending, sortDescending } from '@/lib/utils'
 
 const Home = (): ReactNode => {
-  const recipes: RecipeType[] = useRecipeStore(state => state.recipes)
+  const savedRecipes: RecipeType[] = useRecipeStore(state => state.recipes)
   const saveRecipes: SetRecipesType = useRecipeStore(state => state.setRecipes)
   const sortMode: SortModeType = useRecipeStore(state => state.sortMode)
+  const displayFavorites: boolean = useRecipeStore(state => state.displayFavorites)
+  const displayNotFavorites: boolean = useRecipeStore(state => state.displayNotFavorites)
+
+  const [recipes, setRecipes] = useState<RecipeType[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch('http://localhost:3000/api/recipe-list')
       const response = await data.json()
       saveRecipes([...response.recipes])
+      setRecipes([...response.recipes])
     }
 
     fetchData()
@@ -23,16 +28,35 @@ const Home = (): ReactNode => {
 
   useEffect(() => {
     const sorted: RecipeType[] =
-      sortMode === 'asc' ? sortAscending(recipes) : sortDescending(recipes)
+      sortMode === 'asc' ? sortAscending(savedRecipes) : sortDescending(savedRecipes)
     saveRecipes([...sorted])
-  }, [sortMode])
+
+    console.log({
+      id: 'patch-log',
+      displayFavorites,
+      displayNotFavorites
+    })
+
+    if (displayFavorites && displayNotFavorites) {
+      setRecipes([...sorted])
+    }
+    else if (!displayFavorites && !displayNotFavorites) {
+      setRecipes([])
+    }
+    else if (displayFavorites) {
+      setRecipes(sorted.filter((item: RecipeType) => item.isFavorite))
+    }
+    else if (displayNotFavorites) {
+      setRecipes(sorted.filter((item: RecipeType) => !item.isFavorite))
+    }
+  }, [sortMode, displayFavorites, displayNotFavorites])
 
   return (
     <div
       className={clsx('flex', {
-        'justify-end h-full rounded-2xl': recipes.length === 0,
+        'justify-end h-full rounded-2xl': savedRecipes.length === 0,
       })}>
-      {recipes.length > 0 && <Sidebar />}
+      <Sidebar />
       <div className="w-3/4 rounded-2xl bg-white max-h-screen overflow-y-auto">
         <div className="flex flex-col gap-3 p-10 relative h-full">
           <AddRecipeButton />
