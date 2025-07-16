@@ -19,7 +19,7 @@ const SearchBar: React.FC = (): ReactNode => {
   const setSearchString: SetSearchStringType = useRecipeStore(state => state.setSearchString)
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchString(event.target.value.trim())
+    setSearchString(event.target.value)
   }
 
   const handleClear = () => {

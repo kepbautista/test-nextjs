@@ -4,7 +4,7 @@ import Sidebar from '@/components/layouts/Sidebar'
 import AddRecipeButton from '@/components/ui/button/AddRecipeButton'
 import clsx from 'clsx'
 import useRecipeStore from '@/state/useRecipeStore'
-import { sortAscending, sortDescending } from '@/lib/utils'
+import { removeExcessWhiteSpaces, sortAscending, sortDescending } from '@/lib/utils'
 
 const Home = (): ReactNode => {
   const savedRecipes: RecipeType[] = useRecipeStore(state => state.recipes)
@@ -55,7 +55,7 @@ const Home = (): ReactNode => {
 
     // filter by search string
     if (searchString.length > 0) {
-      const transformString: string = searchString.toLocaleLowerCase()
+      const transformString: string =  removeExcessWhiteSpaces(searchString.toLocaleLowerCase())
       filtered = filtered.filter((item: RecipeType) =>
         item.title.toLocaleLowerCase().includes(transformString),
       )
