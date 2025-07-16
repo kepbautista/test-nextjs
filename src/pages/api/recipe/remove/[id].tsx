@@ -1,4 +1,5 @@
 import { readJsonFile, writeJsonFile } from '@/lib/fileUtil'
+import { methodNotAllowed } from '@/lib/fixtures'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,7 +20,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await writeJsonFile({ recipes: [...arrayCopy] })
       res.status(200).json({ message: 'recipe delete' })
     }
+    else {
+      res.status(405).json(methodNotAllowed)
+    }
   } catch (error) {
+    console.error('Delete Recipe error:', error)
     res.status(500).json({ 'server error': error })
   }
 }

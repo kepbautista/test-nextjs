@@ -3,6 +3,7 @@ export const PAGE_URL = {
 }
 
 export const headers = { 'Content-Type': 'application/json' }
+export const methodNotAllowed = { message: 'method not allowed' }
 
 export const SORT_CRITERIA_VALUE = {
   TITLE: 'title',

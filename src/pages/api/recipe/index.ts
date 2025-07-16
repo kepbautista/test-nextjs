@@ -3,6 +3,7 @@ import { removeExcessWhiteSpaces, sortAscending } from '@/lib/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { v4 as uuidv4 } from 'uuid'
 import formidable from 'formidable'
+import { methodNotAllowed } from '@/lib/fixtures'
 
 const emptyValues: RecipeType = {
   id: '',
@@ -57,8 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const instructions: string = removeExcessWhiteSpaces(
       result?.fields?.instructions[0] || '',
     )
-    const recipeId: string = result?.fields?.id[0] || ''
-    const isFavorite: boolean = result?.fields?.isFavorite[0] === 'true'
+    const recipeId: string = result?.fields?.id ? result.fields.id[0] : ''
 
     if (req.method === 'POST') {
       // check if title exists
@@ -101,7 +101,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (req.method === 'PATCH') {
       const arrayCopy: RecipeType[] = [...data.recipes]
       const recipeCopy: RecipeType =
-        data.recipes.find((item: RecipeType) => item.id === recipeId) || emptyValues
+        data.recipes.find((item: RecipeType) => item.id === recipeId) ||
+        emptyValues
       const index: number = data.recipes.findIndex(
         (item: RecipeType) => item.id === recipeId,
       )
@@ -113,13 +114,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         description,
         ingredients,
         instructions,
-        isFavorite
       })
 
       await writeJsonFile({ recipes: [...arrayCopy] })
       res.status(200).json({ message: 'recipe updated' })
     }
+    else {
+      res.status(405).json(methodNotAllowed)
+    }
   } catch (error) {
+    console.error(
+      `${req.method === 'POST' ? 'Add' : 'Update'} recipe error:`,
+      error,
+    )
     res.status(500).json({ 'server error': error })
   }
 }
