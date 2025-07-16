@@ -5,6 +5,7 @@ import useRecipeStore from '@/state/useRecipeStore'
 import { SORT_CRITERIA_LABEL, SORT_CRITERIA_VALUE } from '@/lib/fixtures'
 
 const SortCriteriaRadio: React.FC = (): ReactNode => {
+  const sortCriteria: SortCriteriaType = useRecipeStore(state => state.sortCriteria)
   const setSortCriteria: SetSortCriteriaType = useRecipeStore(
     state => state.setSortCriteria,
   )
@@ -32,7 +33,7 @@ const SortCriteriaRadio: React.FC = (): ReactNode => {
 
   return (
     <RadioGroup
-      defaultValue={options[0].value}
+      value={sortCriteria}
       className="p-4 pt-2"
       onValueChange={handleChange}>
       {options.map((item: OptionType) => (

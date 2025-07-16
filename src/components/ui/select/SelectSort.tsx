@@ -9,6 +9,7 @@ import {
 import useRecipeStore from '@/state/useRecipeStore'
 
 const SelectSort: React.FC = (): ReactNode => {
+  const sortMode: SortModeType = useRecipeStore(state => state.sortMode)
   const setSortMode: SetSortModeType = useRecipeStore(state => state.setSortMode)
 
   const handleChange = (value: SortModeType) => {
@@ -16,7 +17,7 @@ const SelectSort: React.FC = (): ReactNode => {
   } 
   
   return (
-  <Select onValueChange={handleChange}>
+  <Select onValueChange={handleChange} value={sortMode}>
     <SelectTrigger className="w-80 bg-white">
       <SelectValue placeholder="Select" />
     </SelectTrigger>
