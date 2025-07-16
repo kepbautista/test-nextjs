@@ -77,8 +77,8 @@ const Home = (): ReactNode => {
         'justify-end h-full rounded-2xl': savedRecipes.length === 0,
       })}>
       <Sidebar />
-      <div className="w-3/4 rounded-2xl bg-white max-h-screen overflow-y-auto">
-        <div className="flex flex-col gap-3 p-10 relative h-full">
+      <div className="w-3/4 rounded-2xl bg-white">
+        <div className="relative flex flex-col gap-3 p-10 h-3/5 overflow-y-scroll">
           <AddRecipeButton />
           {recipes.length > 0 ? (
             recipes.map((item: RecipeType) => (

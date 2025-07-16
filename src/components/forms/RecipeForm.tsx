@@ -208,7 +208,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
           )}
         </div>
         <div className="w-full pl-5 pr-20">
-          <div className="space-y-8 h-screen overflow-y-scroll">
+          <div className="space-y-8 h-3/5 overflow-y-scroll">
             {formInputFields.map((item: FormInputType) => (
               <FormInputField key={item.name} form={form} {...item} />
             ))}

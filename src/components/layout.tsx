@@ -9,8 +9,7 @@ const RootLayout = ({
   return (
     <div className="grid grid-rows-[106px_1fr] min-w-[720px] h-screen min-h-screen">
       <SiteHeader />
-      {/* TODO: should not be scrollable later */}
-      <div className="relative overflow-y-auto p-6">{children}</div>
+      <div className="relative overflow-y-hidden p-6">{children}</div>
       <Toaster />
     </div>
   )
