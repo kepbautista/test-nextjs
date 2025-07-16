@@ -19,6 +19,7 @@ type RecipeInputType = {
   description: string
   ingredients: string
   instructions: string
+  imageFile?: string
 }
 
 type ReadRecipeJsonFileResponse = {

@@ -6,5 +6,6 @@ export const recipeSchema = z.object({
   title: z.string().nonempty(),
   description: z.string().nonempty(),
   ingredients: z.string().nonempty(),
-  instructions: z.string().nonempty()
+  instructions: z.string().nonempty(),
+  imageFile: z.any()
 })

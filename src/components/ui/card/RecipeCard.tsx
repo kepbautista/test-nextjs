@@ -59,7 +59,6 @@ const RecipeCard: React.FC<RecipeType> = ({
     <Card className="border border-black p-0">
       <CardContent className="flex p-0">
         <div className="relative rounded-2xl w-xl h-xl">
-          {/* TODO: implement favorite/unfavorite onclick */}
           <SetFavoriteButton
             isFavorite={isFavorite}
             handleClick={handleSetFavorite}
