@@ -5,6 +5,8 @@ type FormInputType = {
   disabled?: boolean
   type?: string
   className?: string
+  error?: string
+  isDirty: boolean
 }
 
 type FormInputFieldProps =  FormInputType & {

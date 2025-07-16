@@ -68,12 +68,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       )
 
       if (found) {
-        res.status(400).send({ error: 'recipe title already exists' })
-      } else {
+        res.status(400).send({ error: 'Recipe title already exists.' })
+      }
+      else if (!result?.files?.imageFile) {
+        res.status(400).send( {error: 'No image was uploaded for the recipe.'} )
+      }
+      else {
         const id: string = uuidv4() // generate recipe uuid
 
         // upload recipe image image
-        const imageUrl: string = await uploadImage(result?.files, title)
+        const imageUrl: string = await uploadImage(result.files, title)
 
         const arrayCopy: RecipeType[] = [
           ...data.recipes,

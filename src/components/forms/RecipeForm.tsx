@@ -36,17 +36,29 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   const form = useForm<z.infer<typeof recipeSchema>>({
     resolver: zodResolver(recipeSchema),
     defaultValues,
+    mode: 'onChange',
   })
-  const { setValue } = form
+  const {
+    setValue,
+    formState: { errors, dirtyFields },
+  } = form
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
     try {
-      await fetch(`/api/recipe/remove/${id}`, { method: 'DELETE', headers })
-      setTimeout(() => {
-        router.push(PAGE_URL.HOME)
-      }, 2000)
+      const response = await fetch(`/api/recipe/remove/${id}`, {
+        method: 'DELETE',
+        headers,
+      })
+      if (response.status === 200) {
+        toast('Delete successful', {
+          description: 'Recipe has been successfully deleted',
+        })
+        setTimeout(() => {
+          router.push(PAGE_URL.HOME)
+        }, 2000)
+      }
     } catch (error) {
       console.error(`Delete Recipe error:`, error)
     }
@@ -81,11 +93,12 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
           // go back to previous page after successful adding of recipe
           router.back()
         } else if (response.status === 400) {
+          const { error } = await response.json()
           toast('Add recipe failed', {
-            description: 'Recipe title already exists.',
+            description: error,
           })
         }
-      } else if(response.status === 200) {
+      } else if (response.status === 200) {
         toast('Update successful', {
           description: 'Recipe has been successfully updated',
         })
@@ -112,18 +125,28 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   }
 
   const formInputFields: FormInputType[] = [
-    { name: 'author', label: 'Your Name', defaultValue: defaultValues.author },
+    {
+      name: 'author',
+      label: 'Your Name',
+      defaultValue: defaultValues.author,
+      error: errors?.author?.message,
+      isDirty: dirtyFields.author === true,
+    },
     {
       name: 'email',
       label: 'Email Address',
       type: 'email',
       defaultValue: defaultValues.email,
+      error: errors?.email?.message,
+      isDirty: dirtyFields.email === true,
     },
     {
       name: 'title',
       label: 'Title',
       defaultValue: defaultValues.title,
       disabled: !isAddMode,
+      error: isAddMode ? errors?.title?.message : undefined,
+      isDirty: dirtyFields.title === true,
     },
   ]
 
@@ -132,18 +155,24 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
       name: 'description',
       label: 'Description',
       defaultValue: defaultValues.description,
+      error: errors?.description?.message,
+      isDirty: dirtyFields.description === true,
     },
     {
       name: 'ingredients',
       label: 'Ingredients',
       defaultValue: defaultValues.ingredients,
       className: 'h-32',
+      error: errors?.ingredients?.message,
+      isDirty: dirtyFields.ingredients === true,
     },
     {
       name: 'instructions',
       label: 'Instructions',
       defaultValue: defaultValues.instructions,
       className: 'h-32',
+      error: errors?.instructions?.message,
+      isDirty: dirtyFields.instructions == true,
     },
   ]
 
