@@ -30,25 +30,16 @@ const RecipeCard: React.FC<RecipeType> = ({
         (item: RecipeType) => item.id === id,
       )
       arrayCopy.splice(index, 1, { ...reference, isFavorite: !isFavorite })
-
       saveRecipes([...arrayCopy])
 
-      const body: string = JSON.stringify({
-        id,
-        imageUrl,
-        title,
-        description,
-        author,
-        createdDate,
-        isFavorite: !isFavorite,
-      })
-
       try {
-        await fetch('/api/recipe', {
-        method: 'PATCH',
-        headers,
-        body,
-      })
+        await fetch(`/api/recipe/set-favorite/${id}`, {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({
+            isFavorite: !isFavorite,
+          }),
+        })
       } catch (error) {
         console.error('Set Favorite error:', error)
       }

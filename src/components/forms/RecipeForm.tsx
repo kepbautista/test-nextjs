@@ -85,7 +85,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
             description: 'Recipe title already exists.',
           })
         }
-      } else {
+      } else if(response.status === 200) {
         toast('Update successful', {
           description: 'Recipe has been successfully updated',
         })

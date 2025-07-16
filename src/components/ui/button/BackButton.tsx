@@ -8,7 +8,10 @@ const BackButton: React.FC = (): ReactNode => {
   return (
     <Button
       variant="plain"
-      onClick={() => router.back()}
+      onClick={event => {
+        event.preventDefault()
+        router.back()
+      }}
       className="flex gap-3 text-4xl font-normal">
       <h3>{'<'}</h3>
       <h3>Back</h3>

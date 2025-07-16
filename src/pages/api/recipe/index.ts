@@ -58,6 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       result?.fields?.instructions[0] || '',
     )
     const recipeId: string = result?.fields?.id[0] || ''
+    const isFavorite: boolean = result?.fields?.isFavorite[0] === 'true'
 
     if (req.method === 'POST') {
       // check if title exists
@@ -112,6 +113,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         description,
         ingredients,
         instructions,
+        isFavorite
       })
 
       await writeJsonFile({ recipes: [...arrayCopy] })
